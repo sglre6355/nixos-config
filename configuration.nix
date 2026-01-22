@@ -85,6 +85,7 @@
     gnupg
     neovim
     sbctl
+    tailscale
     veracrypt
   ];
 
@@ -97,6 +98,7 @@
   };
 
   # List services that you want to enable:
+  services.tailscale.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
