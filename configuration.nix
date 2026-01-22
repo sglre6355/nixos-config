@@ -10,9 +10,19 @@
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  # Use Limine for the boot loader.
+  boot.loader.limine = {
+    enable = true;
+    secureBoot.enable = true;
+    maxGenerations = 5;
+    extraEntries = ''
+      /Windows 11
+        protocol: efi
+        path: guid(85189e56-a637-49ca-9cb4-d6f943af9408):/EFI/Microsoft/Boot/bootmgfw.efi
+    '';
+  };
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.systemd.enable = true;
 
   networking.hostName = "SGR-PCPA02";
 
@@ -75,6 +85,7 @@
     git
     gnupg
     neovim
+    sbctl
     tailscale
     veracrypt
   ];
