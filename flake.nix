@@ -10,7 +10,7 @@
     };
   };
   outputs = inputs@{ self, nixpkgs, lanzaboote, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."SGR-PCPA02" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         lanzaboote.nixosModules.lanzaboote

@@ -23,7 +23,7 @@
     pkiBundle = "/var/lib/sbctl";
   };
 
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "SGR-PCPA02";
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
