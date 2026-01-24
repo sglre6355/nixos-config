@@ -71,10 +71,13 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.sglre6355 = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
   };
 
   # programs.firefox.enable = true;
+
+  programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
