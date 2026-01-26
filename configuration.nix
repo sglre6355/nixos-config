@@ -20,6 +20,12 @@
         protocol: efi
         path: guid(85189e56-a637-49ca-9cb4-d6f943af9408):/EFI/Microsoft/Boot/bootmgfw.efi
     '';
+    style = {
+      wallpapers = [ ];
+      interface = {
+        helpHidden = true;
+      };
+    };
   };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
