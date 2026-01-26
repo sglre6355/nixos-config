@@ -47,8 +47,7 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
+  services.xserver.desktopManager.runXdgAutostartIfNone = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -58,12 +57,10 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -75,9 +72,12 @@
     extraGroups = [ "wheel" ];
   };
 
-  # programs.firefox.enable = true;
-
   programs.zsh.enable = true;
+
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -87,6 +87,8 @@
     gh
     git
     gnupg
+    home-manager
+    mako
     neovim
     sbctl
     tailscale
@@ -102,7 +104,24 @@
   };
 
   # List services that you want to enable:
+  services.gnome.gnome-keyring.enable = true;
   services.tailscale.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
+        user = "greeter";
+      };
+    };
+  };
+
+  security.polkit.enable = true;
+  security.pam.services = {
+    greetd.enableGnomeKeyring = true;
+    swaylock.enableGnomeKeyring = true;
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -124,6 +143,13 @@
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   # system.copySystemConfiguration = true;
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-color-emoji
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
