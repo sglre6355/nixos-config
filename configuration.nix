@@ -2,45 +2,62 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use Limine for the boot loader.
-  boot.loader.limine = {
-    enable = true;
-    secureBoot.enable = true;
-    maxGenerations = 5;
-    extraEntries = ''
-      /Windows 11
-        protocol: efi
-        path: guid(85189e56-a637-49ca-9cb4-d6f943af9408):/EFI/Microsoft/Boot/bootmgfw.efi
-    '';
-    style = {
-      wallpapers = [ ];
-      interface = {
-        helpHidden = true;
+  boot = {
+    initrd.systemd.enable = true;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      limine = {
+        enable = true;
+        secureBoot.enable = true;
+        maxGenerations = 5;
+        extraEntries = ''
+          /Windows 11
+            protocol: efi
+            path: guid(85189e56-a637-49ca-9cb4-d6f943af9408):/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
+        style = {
+          wallpapers = [ ];
+          interface = {
+            helpHidden = true;
+          };
+        };
       };
     };
   };
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.systemd.enable = true;
 
-  networking.hostName = "SGR-PCPA02";
+  networking = {
+    hostName = "SGR-PCPA02";
 
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
+    # Configure network connections interactively with nmcli or nmtui.
+    networkmanager.enable = true;
+
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+    # Open ports in the firewall.
+    # firewall.allowedTCPPorts = [ ... ];
+    # firewall.allowedUDPPorts = [ ... ];
+    # Or disable the firewall altogether.
+    # firewall.enable = false;
+  };
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -50,39 +67,11 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  services.xserver.desktopManager.runXdgAutostartIfNone = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.sglre6355 = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
-  };
-
-  programs.zsh.enable = true;
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -101,33 +90,12 @@
     veracrypt
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
 
-  # List services that you want to enable:
   services.gnome.gnome-keyring.enable = true;
-  services.tailscale.enable = true;
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
-        user = "greeter";
-      };
-    };
-  };
-
-  security.polkit.enable = true;
-  security.pam.services = {
-    greetd.enableGnomeKeyring = true;
-    swaylock.enableGnomeKeyring = true;
-  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -139,16 +107,47 @@
     };
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  programs.zsh.enable = true;
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  services.xserver = {
+    desktopManager.runXdgAutostartIfNone = true;
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
+        user = "greeter";
+      };
+    };
+  };
+
+  # Enable sound.
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+  };
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.libinput.enable = true;
+
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
+
+  services.tailscale.enable = true;
+
+  security.polkit.enable = true;
+
+  security.pam.services = {
+    greetd.enableGnomeKeyring = true;
+    swaylock.enableGnomeKeyring = true;
+  };
 
   fonts.packages = with pkgs; [
     noto-fonts
@@ -156,6 +155,11 @@
     noto-fonts-cjk-serif
     noto-fonts-color-emoji
   ];
+
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -175,5 +179,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.11"; # Did you read the comment?
-
 }

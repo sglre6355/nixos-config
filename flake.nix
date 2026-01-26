@@ -2,17 +2,22 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   };
-  outputs = inputs@{ self, nixpkgs, ... }: {
-    nixosConfigurations."SGR-PCPA02" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        {
-          nix = {
-            settings.experimental-features = [ "nix-command" "flakes" ];
-          };
-        }
-      ];
+  outputs =
+    inputs@{ self, nixpkgs, ... }:
+    {
+      nixosConfigurations."SGR-PCPA02" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+          {
+            nix = {
+              settings.experimental-features = [
+                "nix-command"
+                "flakes"
+              ];
+            };
+          }
+        ];
+      };
     };
-  };
 }
