@@ -83,7 +83,6 @@
     git
     gnupg
     home-manager
-    mako
     neovim
     sbctl
     tailscale
