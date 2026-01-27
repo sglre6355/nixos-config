@@ -138,6 +138,7 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    extraPackages = [ ];
   };
 
   services.tailscale.enable = true;
