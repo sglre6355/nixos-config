@@ -22,6 +22,16 @@
             inherit self username;
           };
         };
+        SGR-PCPB01 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/sgr-pcpb01
+          ];
+          specialArgs = {
+            host = "SGR-PCPB01";
+            inherit self username;
+          };
+        };
       };
     };
 }
