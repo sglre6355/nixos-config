@@ -19,6 +19,7 @@
     shell = pkgs.zsh;
     extraGroups = [
       "wheel"
+      "disk"
     ];
   };
 }
