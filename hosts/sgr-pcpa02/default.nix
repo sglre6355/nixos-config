@@ -15,6 +15,8 @@
 
   time.timeZone = "Europe/London";
 
+  programs.steam.enable = true;
+
   services.clamav = {
     daemon.enable = true;
     updater.enable = true;
