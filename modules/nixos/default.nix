@@ -11,6 +11,7 @@
     ./programs.nix
     ./security.nix
     ./services.nix
+    ./swap.nix
     ./system.nix
     ./users.nix
     ./virtualization.nix
