@@ -42,6 +42,15 @@
     ];
   };
 
+  fileSystems."/home/sglre6355/games" = {
+    device = "/dev/mapper/cryptdata";
+    fsType = "btrfs";
+    options = [ "subvol=games" ];
+  };
+
+  boot.initrd.luks.devices."cryptdata".device =
+    "/dev/disk/by-uuid/cf3b5823-869d-48b0-8e33-315b665588c5";
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
