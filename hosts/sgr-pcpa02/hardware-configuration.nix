@@ -19,7 +19,6 @@
     "ahci"
     "nvme"
     "usbhid"
-    "usb_storage"
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
@@ -32,10 +31,10 @@
   };
 
   boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-uuid/c1e24501-449b-448b-bef9-f8f0ae5f6d6f";
+    "/dev/disk/by-uuid/38939059-9ab6-4f1c-8969-6cc5318304e8";
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/F6C3-1C25";
+    device = "/dev/disk/by-uuid/7221-4CAE";
     fsType = "vfat";
     options = [
       "fmask=0077"
