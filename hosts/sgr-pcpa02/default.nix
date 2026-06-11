@@ -13,7 +13,7 @@
       path: guid(421ac87e-6137-4704-871c-c311c9a4711a):/EFI/Microsoft/Boot/bootmgfw.efi
   '';
 
-  time.timeZone = "Europe/London";
+  time.timeZone = "Asia/Tokyo";
 
   programs.steam.enable = true;
 

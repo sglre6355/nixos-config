@@ -7,7 +7,7 @@
     ./hardware-configuration.nix
   ];
 
-  time.timeZone = "Europe/London";
+  time.timeZone = "Asia/Tokyo";
 
   system.stateVersion = "25.11";
 }
