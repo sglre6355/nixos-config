@@ -14,6 +14,7 @@
         KbdInteractiveAuthentication = false;
       };
     };
+    pcscd.enable = true;
     printing.enable = true;
   };
 }
