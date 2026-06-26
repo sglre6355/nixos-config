@@ -20,5 +20,6 @@
   };
 
   services.tailscale.enable = true;
+  services.zerotierone.enable = true;
   networking.firewall.checkReversePath = "loose";
 }
